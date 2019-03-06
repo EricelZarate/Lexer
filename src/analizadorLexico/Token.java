@@ -11,7 +11,7 @@ public class Token {
     private String categoria,lexema;
     /**
      * Variables de tipo entero linea y linea siguiente que tendran el valor de la linea donde 
-     * el token
+     * el token está y la linea siguiente
      */
     private Integer linea,lineaSiguiente;
     /**
@@ -22,20 +22,14 @@ public class Token {
    public static final String OPERADORES_MATEMATICOS ="Operador Matematico";
    public static final String OPERADOR_ASIGNACION ="Operador de Asignacion";
    public static final String CADENA_PALABRAS ="Cadena de palabra";
-   public static final String TIPOS_VARIABLES ="Variable";
-   public static final String NOMBRES_DE_VARIABLES ="Nombre de variable ";
-   public static final String SIMBOLOS ="Simbolo ";
-    public static final String SIMBOLOS_NO_RECONOCIDOS ="Simbolo no reconocido ";
-    public static final String METODO_IMPRIMIR="Metodo de imprimir";
-    public static final String LETRA="Letra";
-     public static final String COMENTARIO="comentario";
-     public static final String SALTO="Salto de línea";
-     public static final String COMPARACIONES="Operadores de comparacion";
-          public static final String LLAVES="Llaves de inicio y cierre";
+   public static final String NOMBRES_DE_VARIABLES ="Nombre de variable";
+   public static final String SIMBOLOS_NO_RECONOCIDOS ="Simbolo no reconocido";
+   public static final String COMENTARIO="Comentario";
+   public static final String SALTO="Salto de línea";
+   public static final String COMPARACIONES="Operador de comparacion";
+   public static final String LLAVES="Llaves de inicio y cierre";
 
-    
-   
-   
+     
     /**
      * Metodo constructor de la clase TokensAnalizador
      * @param categoria
@@ -83,13 +77,5 @@ public class Token {
 
     public void setLineaSiguiente(Integer lineaSiguiente) {
         this.lineaSiguiente = lineaSiguiente;
-    }
-
-
-   
-
-   
-   
-    
-    
+    }      
 }
