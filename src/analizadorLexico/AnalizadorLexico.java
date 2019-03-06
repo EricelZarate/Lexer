@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class AnalizadorLexico {
    private static final String [] PALABRAS_RESERVADAS={
-   "inicio","fin","imprimir","si","sino",
+   "inicio","fin","imprimir","si","sino", "origen"
    };
   
 
@@ -46,18 +46,18 @@ public class AnalizadorLexico {
                 
         for (String linea: arregloLineas) {
             contLinea++;
-            int j=contLinea;
             Integer i=0;
             while(i < linea.trim().length()){
                 Token token = obtenerTokens(arregloLineas ,linea.trim() , i );
-                tokens.add(token);
+                if(!token.getCategoria().equals(Token.COMENTARIO)) 
+                    tokens.add(token);
                 i=token.getLinea();                
              while (i < linea.trim().length() && linea.trim().charAt(i) == ' ') {
                  i++;
              }                          
         }
-       //INSERTA UN TOKEN SALTO DE LÍNEA AL FINAL DE CADA LÍNEA, PARA SEPARAR INSTRUCCIONES
-       tokens.add(new Token(Token.SALTO,"\\n",j-1,j));
+       //INSERTA UN TOKEN SALTO DE LÍNEA AL FINAL DE CADA LÍNEA
+       //tokens.add(new Token(Token.SALTO,"\\n",j-1,j));
      } 
         return tokens;
     }
@@ -100,7 +100,7 @@ public class AnalizadorLexico {
         }                
           token = obtenerCadena(linea, i);
         if (token != null) {
-            return token;
+            return token;   
         }        
         token = obtenerNoReconocido(linea, i);
         return token;
@@ -108,11 +108,9 @@ public class AnalizadorLexico {
     //PALABRA RESERVADA
     public Token obtenerPalabraReservada(String linea, Integer i) {
         String lexema="";
-        if (esLetra(linea.charAt(i)) || linea.charAt(i) == '_' || linea.charAt(i) == '$') {
+        if (esLetra(linea.charAt(i))) {
             Integer j =i;
-            while (j < linea.length() && (esLetra(linea.charAt(j))
-                    || esDigito(linea.charAt(j)) || linea.charAt(j) == '_'
-                    || linea.charAt(j) == '$')) {
+            while (j < linea.length() && (esLetra(linea.charAt(j)))) {
                 j++;
             }
             lexema=linea.substring(i,j);
@@ -123,11 +121,10 @@ public class AnalizadorLexico {
     }
      //EL IDENTIFICADOR PUEDE EMPEZAR CON LETRAS SOLAMENTE
     private Token obtenerIdentificador(String linea, Integer i) {
-        if (esLetra(linea.charAt(i)) /*|| linea.charAt(i) == '_' || linea.charAt(i) == '$'*/) {
+        if (esLetra(linea.charAt(i))) {
             Integer j =i;
             while (j < linea.length() && (esLetra(linea.charAt(j))
-                    || esDigito(linea.charAt(j)) || linea.charAt(j) == '_'
-                    || linea.charAt(j) == '$')) {
+                    || esDigito(linea.charAt(j)) )){
                 j++;
             }
             String lexema =  linea.substring(i, j);

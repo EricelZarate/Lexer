@@ -15,7 +15,7 @@ public class Token {
      */
     private Integer linea,lineaSiguiente;
     /**
-     * Variables constantes de tipo String para los tokens del anaizador
+     * Variables constantes del tipo de lexema para los tokens del anaizador
      */
    public static final String PALABRAS_RESERVADAS ="Palabra reservada";
    public static final String VALORES_NUMERICOS ="Numerico";
@@ -27,7 +27,7 @@ public class Token {
    public static final String COMENTARIO="Comentario";
    public static final String SALTO="Salto de línea";
    public static final String COMPARACIONES="Operador de comparacion";
-   public static final String LLAVES="Llaves de inicio y cierre";
+   public static final String LLAVES="Delimitador de parametros";
 
      
     /**
