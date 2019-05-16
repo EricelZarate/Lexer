@@ -7,6 +7,8 @@ package analizadorLexico;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -55,6 +57,8 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         imprimirText = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        analizarBoton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -71,7 +75,7 @@ public class Interfaz extends javax.swing.JFrame {
                 analizarBotonActionPerformed(evt);
             }
         });
-        jPanel2.add(analizarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 400, 60, 50));
+        jPanel2.add(analizarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 60, 50));
 
         tablaAnalixador.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tablaAnalixador.setModel(new javax.swing.table.DefaultTableModel(
@@ -132,17 +136,17 @@ public class Interfaz extends javax.swing.JFrame {
         );
         jpanelInterfazEscribirLayout.setVerticalGroup(
             jpanelInterfazEscribirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpanelInterfazEscribirLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpanelInterfazEscribirLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpanelInterfazEscribirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(escribirTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                    .addComponent(lineaTxt))
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addGroup(jpanelInterfazEscribirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lineaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                    .addComponent(escribirTxt))
+                .addContainerGap())
         );
 
         jScrollPane2.setViewportView(jpanelInterfazEscribir);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 17, -1, 500));
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 17, -1, 540));
 
         mensajetxt.setBackground(new java.awt.Color(153, 153, 153));
         mensajetxt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -159,10 +163,24 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Analizar");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, -1, -1));
+        jLabel1.setText("Analizador Sintactico");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 510));
+        analizarBoton1.setBackground(new java.awt.Color(255, 255, 255));
+        analizarBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/analizadorLexico/Search-icon.png"))); // NOI18N
+        analizarBoton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analizarBoton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(analizarBoton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 60, 50));
+
+        jLabel2.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Analizador Lexico");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -248,6 +266,418 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_escribirTxtKeyPressed
 
+    private void analizarBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBoton1ActionPerformed
+        // TODO add your handling code here:
+        
+        if(!analizarTokens.isEmpty()){
+        AnalizadorSintactico as = new AnalizadorSintactico(analizarTokens);
+        ArrayList<Expresion> arr=as.analizar();            
+        imprimirText.setText(as.getErrCode());
+        as.imprimeExp();
+        }
+        else imprimirText.setText("No hay tokens");
+        
+        /*
+        
+        
+        
+        int errores=0;
+        LinkedList <String> ENT = new LinkedList<>();
+        LinkedList <String> DATOS = new LinkedList<>();
+        LinkedList <String> DEC = new LinkedList<>();
+        LinkedList <String> TEXT = new LinkedList<>();
+        LinkedList <String> TAKE = new LinkedList<>();
+        
+        String
+//((\\s)*si(\\s)*(\\¿)(\\s)*variable1 == 1(\\s)*(\\?)(\\s)*(\\{)(\\s)*)
+                
+                comparacion = "[<=>][=]",
+                comentario = "(#.*(\n)*)",
+                id = "([(a-z)(A-Z)](\\w)*)",
+                num = "((\\d)+)",
+                dec = "((\\d)+(\\.)(\\d)+)",
+                text = "((((#)[.\\W\\w\\s]*(#))|("+id+"))((\\s)*(\\+)((\\s)*((#)[.\\W\\w\\s]*(#))|("+id+")))*[\n]*)",
+                imprime = "((\\s)*imprimir(\\s)*((((¿)[.\\W\\w\\s]*(?))|("+id+"))((\\s)*(\\+)((\\s)*((#)[.\\W\\w\\s]*(#))|("+id+")))*)(\\s)*(\n)*)",
+                operaciones = "(("+id+"|"+num+"|"+dec+")(\\s)*([+-/*](\\s)*("+id+"|"+num+"|"+dec+"))+)",
+                defVal = "((\\s)*"+id+"(\\s)*=(\\s)*("+id+"|"+text+"|"+operaciones+"|"+num+"|"+dec+")(\\s)*)",
+                defValVar = "((\\s)*"+id+"(\\s)*=(\\s)*("+id+"|"+text+"|"+operaciones+"|"+num+"|"+dec+")(\\s)*)",
+                var = "((\\s)*("+id+"|"+defValVar+")((\\s)*(,(\\s)*("+id+"|"+defValVar+")))*(\\s)*)",
+                condicion = "("+id+"|"+num+"|"+dec+")(\\s)*"+comparacion+"(\\s)*("+id+"|"+num+"|"+dec+")((\\s)*([(&&)(||)](\\s)*"+id+"(\\s)*"+comparacion+"(\\s)*("+id+"|"+num+"|"+dec+")))*",
+                main = "((\\s)*origen(\\b)(\\s)*inicio[.\\W\\w\\s]*fin(\\s)*$)",
+                princ = "(\\s)*origen(\\b)(\\s)*inicio(\\s)*",
+                inicio = "((\\s)*inicio(\\s)*)",
+                fin = "((\\s)*fin(\\s)*(\\n)*)",
+                iniciosi = "((\\s)*si(\\s)*(\\¿)(\\s)*"+condicion+"(\\s)*(\\?)(\\s)*(inicio)?(\\s)*)",
+                //finsi = "((\\s)*"+fin+"*(\\s)*)",
+                 entero = "[0-9]*",
+                decimal = "[0-9]*.[0-9]+",
+                salto = "(\n)*";
+        
+                
+                LinkedList <Integer> error = new LinkedList<>();
+                StringTokenizer st = new StringTokenizer(escribirTxt.getText(),"\n", true);
+                //while(st.hasMoreTokens()){System.out.println(st.nextToken());}
+                String token = "", txt = "", e;
+                int i = 1, mainE = 0, start = 0, when = 0, it = 0, eB = 0;
+                this.imprimirText.setText("");
+                if(escribirTxt.getText().matches(main)) {                    
+                    while (st.hasMoreTokens()){
+                        token = st.nextToken();
+                        if(st.hasMoreTokens()) token = token+st.nextToken();
+                        if(token.matches("[.\\W\\w\\s]*fin") && st.countTokens() == 1){
+                            String auxTok = st.nextToken();
+                            token = token+(auxTok.substring(0,auxTok.indexOf("\n")));
+                        }
+                        if(token.matches(iniciosi)){
+                            if (!token.contains("inicio")){
+                                while(st.hasMoreElements()&&!token.contains("inicio")){
+                                    String auxTok = st.nextToken();
+                                    if(auxTok.contains("inicio"))
+                                        token = token+(auxTok.substring(0,auxTok.indexOf("inicio")+1));
+                                    else
+                                     token = token+auxTok;}
+                            }
+                        }*
+                  /*      if(token.matches(finsi)){
+                            if (!token.contains("fin")){
+                                while(st.hasMoreElements()&&!token.contains("fin")){
+                                    String auxTok = st.nextToken();
+                                    if(auxTok.contains("fin"))
+                                        token = token+(auxTok.substring(0,auxTok.indexOf("fin")+1));
+                                    else
+                                     token = token+auxTok;}
+                            }
+                        }    */                                                       
+                        /*StringTokenizer lin = new StringTokenizer(token,"\n",true);
+                            while (lin.hasMoreTokens()){
+                                e = lin.nextToken();
+                                if("\n".equals(e)) i++;
+                            }                            
+                            System.out.println(token);
+                            if(token.matches(iniciosi)) it++;
+                            //if(token.matches(finsi)) it--;
+                            if((st.hasMoreTokens() == false && (start > 0 || when > 0 || it > 0)) || (start < 0 || when < 0 || it < 0)) eB = 1;
+                            if((token.matches(fin)) ||(token.matches(princ)) ||(token.matches(salto) || token.matches(comentario) ||token.matches(imprime)  || token.matches(var) || token.matches(defVal) || token.matches(inicio) || token.matches(fin) || token.matches("(\\s)*(\\$)") || token.matches(iniciosi) /*|| token.matches(finsi)/*///) && eB == 0){
+                                /*if(token.matches(var)){
+                                    StringTokenizer stTipo = new StringTokenizer(token," ,\n");
+                                    String tipo = stTipo.nextToken();
+                                    if(tipo.contains("entero")){                                        
+                                        while(stTipo.hasMoreTokens()){
+                                            tipo = stTipo.nextToken();
+                                            if(ENT.contains(tipo) || DEC.contains(tipo) || TEXT.contains(tipo)|| TAKE.contains(tipo)){
+                                                this.imprimirText.setText("La Variable esta repetida ("+tipo+") "+i+": \n"
+                                                               + "________________________________________________________________________\n"+token);
+                                                for(int j = 1; j <i; j++){
+                                                    txt += "\n";
+                                                }
+                                                //LineaError.setText(txt+" ¡!");
+                                                errores=1;
+                                                break;
+                                            }                                            
+                                            ENT.add(tipo);
+                                        }
+                                   }
+                                    if(tipo.contains("decimal")){
+                                        
+                                        while(stTipo.hasMoreTokens()){
+                                            tipo = stTipo.nextToken();
+                                            
+                                            if(ENT.contains(tipo) || DEC.contains(tipo) || TEXT.contains(tipo)|| TAKE.contains(tipo)){
+                                                this.imprimirText.setText("La Variable esta repetida ("+tipo+") "+i+": \n"
+                                                               + "________________________________________________________________________\n"+token);
+                                                for(int j = 1; j <i; j++){
+                                                    txt += "\n";
+                                                }
+                                                //LineaError.setText(txt+" ¡!");
+                                                 errores=1;
+                                                break;
+                                            }
+                                            
+                                            DEC.add(tipo);
+                                        }
+                                    }
+                                    
+                                    if(tipo.contains("cadena")){
+                                       
+                                        while(stTipo.hasMoreTokens()){
+                                            tipo = stTipo.nextToken();
+                                            
+                                            if(ENT.contains(tipo) || DEC.contains(tipo) || TEXT.contains(tipo)|| TAKE.contains(tipo)){
+                                                this.imprimirText.setText("La variable esta repetida ("+tipo+") "+i+": \n"
+                                                               + "________________________________________________________________________\n"+token);
+                                                for(int j = 1; j <i; j++){
+                                                    txt += "\n";
+                                                }
+                                               // LineaError.setText(txt+" ¡!");
+                                                 errores=1;
+                                                break;
+                                            }
+                                            
+                                            TEXT.add(tipo);
+                                        }
+                                    }
+                                }*/
+//////////                                /*if(token.matches(defVal)){
+ /*                                   StringTokenizer stComprobar = new StringTokenizer(token," \n\t=");
+                                    String ID = stComprobar.nextToken(), comprobar = "", tok = "";
+                                    //System.out.print(ID);
+                                    while(stComprobar.hasMoreTokens()){
+                                            comprobar += stComprobar.nextToken();
+                                        }                                    
+                                    if(ENT.contains(ID)){
+   /*                                     StringTokenizer stComprobarE = new StringTokenizer(comprobar,"+*///-");
+     /*                                   while(stComprobarE.hasMoreTokens()){
+                                            tok = stComprobarE.nextToken();                                            
+                                            if(tok.matches(id)){
+                                                if(ENT.contains(tok));
+                                                else{
+                                                    this.imprimirText.setText("Tipos Incompatibles ("+tok+") "+i+": \n"
+                                                                    + "________________________________________________________________________\n"+token);
+                                                    for(int j = 1; j <i; j++){
+                                                        txt += "\n";
+                                                    }
+                                                   // LineaError.setText(txt+" ¡!");
+                                                     errores=1;
+                                                    break;
+                                                }
+                                            }
+                                            else{
+                                                if(tok.matches(entero));
+                                                else{
+                                                    this.imprimirText.setText("Tipos Incompatibles ("+tok+") "+i+": \n"
+                                                                    + "________________________________________________________________________\n"+token);
+                                                    for(int j = 1; j <i; j++){
+                                                        txt += "\n";
+                                                    }
+                                                    //LineaError.setText(txt+" ¡!");
+                                                     errores=1;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        if(DEC.contains(ID)){
+                                            StringTokenizer stComprobarD = new StringTokenizer(comprobar,"+*///-");
+     /*                                       while(stComprobarD.hasMoreTokens()){
+                                                tok = stComprobarD.nextToken();
+
+                                                if(tok.matches(id)){
+                                                    if(DEC.contains(tok));
+                                                    else{
+                                                        this.imprimirText.setText("Tipos Incompatibles ("+tok+") "+i+": \n"
+                                                                        + "________________________________________________________________________\n"+token);
+                                                        for(int j = 1; j <i; j++){
+                                                            txt += "\n";
+                                                        }
+                                                        //LineaError.setText(txt+" ¡!");
+                                                         errores=1;
+                                                        break;
+                                                    }
+                                                }
+                                                else{
+                                                    if(tok.matches(decimal));
+                                                    else{
+                                                        this.imprimirText.setText("Tipos Incompatibles ("+tok+") "+i+": \n"
+                                                                        + "________________________________________________________________________\n"+token);
+                                                        for(int j = 1; j <i; j++){
+                                                            txt += "\n";
+                                                        }
+                                                       // LineaError.setText(txt+" ¡!");
+                                                         errores=1;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            if(TEXT.contains(ID)){
+                                                   if(comprobar.matches("((((\")[.\\W\\w\\s]*(\"))|("+id+"))((\\s)*(\\+)((\\s)*((\")[.\\W\\w\\s]*(\"))|("+id+")))*)"));
+                                                   else {
+                                                       this.imprimirText.setText("Tipos Incompatibles "+i+": \n"
+                                                                        + "________________________________________________________________________\n"+token);
+                                                        for(int j = 1; j <i; j++){
+                                                            txt += "\n";
+                                                        }
+                                                        //LineaError.setText(txt+" ¡!");
+                                                         errores=1;
+                                                        break;
+                                                   }
+                                            }
+                                            else{
+                                                this.imprimirText.setText("Variable no declarada "+i+": \n"
+                                                                + "________________________________________________________________________\n"+token);
+                                                for(int j = 1; j <i; j++){
+                                                   txt += "\n";
+                                                }
+                                                lineaTxt.setText(txt+" ¡!");
+                                                 errores=1;
+                                                break;
+                                            }
+                                        }
+                                    }     
+                                }
+                            }                           
+                            
+                            
+                            else {
+                                if(token.contains("imprimir")){
+                                    //txtATraducido.setText("PRINT");
+                                    this.imprimirText.setText("Error al declarar sentencia imprimir; en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                     errores=1;
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                   
+                                     errores=1;
+                                    break;
+                                }
+                                if(token.contains("entero") || token.contains("decimal") || token.contains("cadena")){
+                                    this.imprimirText.setText("Error en declaracion de variables en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                 
+                                     errores=1;
+                                    break;
+                                }
+                               
+                                if(token.contains("finsi")){
+                                    
+                                    this.imprimirText.setText("Cierre de condicion si incorrecto en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                 
+                                     errores=1;
+                                    break;
+                                }
+                                if(token.contains("si")){
+                                   
+                                    this.imprimirText.setText("Inicio de si incorrecto en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                 
+                                     errores=1;
+                                    break;
+                                }
+                                else {
+                                    this.imprimirText.setText("Sintaxis Erronea en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                
+                                     errores=1;
+                                    break;
+                                }
+                            }
+                            
+                            
+                    }
+                    if(errores==0)
+                    this.imprimirText.setText("Análisis sintáctico y semántico OK");
+                }
+                   
+                else {
+                    st = new StringTokenizer(escribirTxt.getText(),";{}",true);
+                    while (st.hasMoreTokens()){
+                        token = st.nextToken();
+                        if(st.hasMoreTokens())token = token+st.nextToken();
+                        if(token.matches("[.\\W\\w\\s]*(\\})") && st.countTokens() == 1){
+                            String auxTok = st.nextToken();
+                            token = token+(auxTok.substring(0,auxTok.indexOf("\n")));
+                        }
+                            StringTokenizer lin = new StringTokenizer(token,"\n",true);
+                            while (lin.hasMoreTokens()){
+                                e = lin.nextToken();
+                                if("\n".equals(e)) i++;
+                            }
+                            if(eB == 1) break;
+                            if(token.matches(iniciosi)) it++;
+                            //if(token.matches(finsi)) it--;
+       /*                     if((st.hasMoreTokens() == false && (start > 0 || when > 0 || it > 0)) || (start < 0 || when < 0 || it < 0)) eB = 1;
+                            
+                            if((token.matches(imprime)  || token.matches(var) || token.matches(defVal) || token.matches(inicio) || token.matches(fin) || token.matches("(\\s)*(\\$)") || token.matches(iniciosi) /*|| token.matches(finsi)*///) && eB == 0){
+         /*                       this.imprimirText.setText("Compilado Exitosamente xD lml");
+                                if(token.matches(fin)) eB = 1;
+                            }
+                             
+                            else {
+                                if(token.contains("imprimir")){
+                                    this.imprimirText.setText("Error al declarar sentencia SEND  en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                            
+                                     errores=1;
+                                    break;
+                                }
+                                if(token.contains("entero") || token.contains("decimal") || token.contains("cadena")){
+                                    this.imprimirText.setText("Error en declaracion de variables  en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                
+                                     errores=1;
+                                    break;
+                                }
+                               
+                                if(token.contains("finsi")){
+                                    this.imprimirText.setText("Cierre de condicion SI incorrecto; en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                
+                                     errores=1;
+                                    break;
+                                }
+                                if(token.contains("si")){
+                                    this.imprimirText.setText("Inicio de SI incorrecto en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                    
+                                     errores=1;
+                                    break;
+                                }
+                                else {
+                                    this.imprimirText.setText("Sintaxis Erronea en la linea "+i+": \n"
+                                                   + "\n"+token);
+                                    for(int j = 1; j <i; j++){
+                                        txt += "\n";
+                                    }
+                                    
+                                     errores=1;
+                                    break;
+                                }
+                            }
+                    }
+                    if(mainE == 0) {
+                        this.imprimirText.setText("Cierre de Clase incorrecto en la Linea "+i+": \n"
+                                       + "\n"+token);
+                        for(int j = 1; j <1; j++){
+                            txt += "\n";
+                        }
+                        
+                         errores=1;
+                    }
+                    
+                    //
+                        
+                }*/
+                            
+    }//GEN-LAST:event_analizarBoton1ActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -287,9 +717,11 @@ public class Interfaz extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analizarBoton;
+    private javax.swing.JButton analizarBoton1;
     private javax.swing.JTextArea escribirTxt;
     private javax.swing.JTextArea imprimirText;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

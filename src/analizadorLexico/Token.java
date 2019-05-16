@@ -71,7 +71,7 @@ public class Token {
         this.linea = linea;
     }
 
-    public Integer getLineaSiguiente() {
+    public int getLineaSiguiente() {
         return lineaSiguiente;
     }
 
