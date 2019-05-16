@@ -33,7 +33,7 @@ public class AnalizadorSintactico {
                 ex.add(e);
             }
             i = 2;
-            while(i<tokens.size()-1){
+            while(i<tokens.size()-1&&errcode.equals("Analisis OK")){
                 if(tokens.get(i).getLexema().equals("imprimir")){
                     if(tokens.get(i+1).getLexema().equals("¿")){
                         if((tokens.get(i+2).getCategoria().equals(Token.CADENA_PALABRAS))||(tokens.get(i+2).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+2).getCategoria().equals(Token.VALORES_NUMERICOS))){
@@ -72,11 +72,19 @@ public class AnalizadorSintactico {
                             } else errcode="Error en el si : "+tokens.get(i).getLineaSiguiente();
                         } else errcode="Error en el si : "+tokens.get(i).getLineaSiguiente();
                     } else errcode="Error en el si : "+tokens.get(i).getLineaSiguiente();
-                } else if (tokens.get(i).getLexema().equals("fin")){
+                }else if (tokens.get(i).getLexema().equals("sino")){
+                    if(tokens.get(i+1).getLexema().equals("inicio")){
+                        Expresion e = new Expresion("sino");
+                        e.addToken(tokens.get(i));
+                        e.addToken(tokens.get(i+1));
+                        ex.add(e);
+                        i++;
+                    } else errcode=" Si no mal definido : "+tokens.get(i).getLineaSiguiente();
+                }else if (tokens.get(i).getLexema().equals("fin")){
                     int nmsi =0;
                     int nmfin =0;
                     for (Expresion e : ex){
-                        if(e.getTipo().equals("iniciosi"))
+                        if((e.getTipo().equals("iniciosi"))||(e.getTipo().equals("sino")))
                             nmsi++;
                         else if(e.getTipo().equals("finsi"))
                             nmfin++;
@@ -124,6 +132,18 @@ public class AnalizadorSintactico {
                 } else errcode="Cadena inesperada en : " + tokens.get(i).getLineaSiguiente();
                 i++;
             }
+            int nmsi=0;
+            int nmfin=0;
+            for (Expresion e : ex){
+                
+                        if((e.getTipo().equals("iniciosi"))||(e.getTipo().equals("sino")))
+                            nmsi++;
+                        else if(e.getTipo().equals("finsi"))
+                            nmfin++;
+                    }
+            if (nmsi!=nmfin){
+                        errcode="Si o sino sin llave de cierre";
+                    }
         }else {
             errcode="Inicio y Fin del programa no definidos";
             return null;

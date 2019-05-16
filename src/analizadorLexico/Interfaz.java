@@ -274,6 +274,13 @@ public class Interfaz extends javax.swing.JFrame {
         ArrayList<Expresion> arr=as.analizar();            
         imprimirText.setText(as.getErrCode());
         as.imprimeExp();
+        if(as.getErrCode().equals("Analisis OK")){
+            AnalizadorSemantico az= new AnalizadorSemantico(arr);
+            if(az.analizar()){
+                imprimirText.setText("Semantico OK");
+            } else imprimirText.setText(az.getErrCode());
+            az.dumpVar();
+        }
         }
         else imprimirText.setText("No hay tokens");
         

@@ -27,6 +27,9 @@ public class Expresion {
     public Expresion(String tipo){
         this.tipo = tipo;
     }
+    public Token getTokenAt(int i){
+        return tokens.get(i);
+    }
     public void addToken(Token tok){
         tokens.add(tok);
     }
