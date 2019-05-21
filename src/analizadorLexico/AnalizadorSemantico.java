@@ -158,10 +158,82 @@ public class AnalizadorSemantico {
                     errcode="Los tipos de datos a comparar no son iguales: "+e.getTokenAt(0).getLineaSiguiente();
                     return false;                        
                 }
+            } else if(e.getTipo().equals("asigncomplex")){
+                int steps=0;
+                for(int t=0;t<e.size();t++){
+                    if(e.getTokenAt(t).getLexema().equals("+")){
+                        steps++;
+                    }
+                }
+                int[] tipos =new int[steps+1];
+                for(int z=0;z<=steps;z++){
+                    Token tok=e.getTokenAt(2+(2*z));
+                    if(tok.getCategoria().equals("Nombre de variable")){                         
+                    int pos=definida(tok);
+                    if(-1!=pos){
+                        tipos[z]=tipo(pos);
+                    } else{
+                        errcode="Variable "+tok.getLexema()+" no definida";
+                        return false;
+                    }
+                    }else if(tok.getCategoria().equals("Numerico"))
+                        tipos[z]=1;
+                    else tipos[z]=2;
+                    
+                }
+                int temp=tipos[0];
+                for (int a =0;a<tipos.length;a++){
+                        if(tipos[a]!=temp){
+                            errcode=e.getTokenAt(0).getLineaSiguiente()+": Operador '+' no funciona con tipos de datos diferentes";
+                            return false;
+                        }
+                    }
+                if(temp==1){
+                    int val=0;
+                    for(int z=0;z<=steps;z++){
+                        Token tok=e.getTokenAt(2+(2*z));                   
+                        if(tok.getCategoria().equals("Nombre de variable")){                         
+                         val+=Integer.parseInt(var.get(definida(tok)).getValor());
+                        } else val+=Integer.parseInt(tok.getLexema());    
+                    }
+                    int pos =definida(e.getTokenAt(0));
+                    if(pos==-1){
+                   Variable v=new Variable(0,val+"",e.getTokenAt(0).getLexema());
+                   var.add(v);}
+                    else{
+                        Variable v=var.get(pos);
+                        v.setTipo(0);
+                        v.setValor(val+"");
+                    }
+                } else if(temp==2){
+                    String val="";
+                    for(int z=0;z<=steps;z++){
+                        Token tok=e.getTokenAt(2+(2*z));                   
+                        if(tok.getCategoria().equals("Nombre de variable")){           
+                            String add=var.get(definida(tok)).getValor();
+                         val+=add.substring(1,add.length()-1);
+                        } else val+=tok.getLexema().substring(1,tok.getLexema().length()-1);  
+                    }
+                    val="\""+val+"\"";
+                    int pos =definida(e.getTokenAt(0));
+                    if(pos==-1){
+                   Variable v=new Variable(1,val,e.getTokenAt(0).getLexema());
+                   var.add(v);}
+                    else{
+                        Variable v=var.get(pos);
+                        v.setTipo(1);
+                        v.setValor(val);
+                    }
+                }
+                //System.out.println("Suma correcta: Datos del mismo tipo");
             }
             i++;
         }
         return true;
+    }
+    //invocar después de usar el método definida(), no verifica que la variable exista
+    public int tipo(int pos){
+        return (var.get(pos).getTipo().equals("entero"))?1:2;
     }
     
     public int definida(Token vari){

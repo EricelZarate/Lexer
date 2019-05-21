@@ -173,7 +173,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
-                    <Property name="text" type="java.lang.String" value="origen inicio&#xa;#comentario&#xa;variable1 =  2&#xa;variable2 =  variable1&#xa;variable3 = &quot;hola&quot;&#xa;variable5 = variable1 + 5+5&#xa;si &#xbf;variable1 == 1 ? inicio&#xa; imprimir&#xbf;&quot;a&quot; ?&#xa;fin&#xa;fin"/>
+                    <Property name="text" type="java.lang.String" value="origen inicio&#xa;#Este es un c&#xf3;digo de prueba&#xa;variable1 =  2&#xa;variable2 =  variable1&#xa;variable3 = &quot;hola&quot;&#xa;variable5 = variable3+&quot; mundo&quot;&#xa;si &#xbf;variable1 == 1 ? inicio&#xa; imprimir&#xbf;&quot;a&quot; ?&#xa;fin sino inicio&#xa;variable2=1+variable2+5&#xa;fin&#xa;fin"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                     <Property name="autoscrolls" type="boolean" value="false"/>
                   </Properties>

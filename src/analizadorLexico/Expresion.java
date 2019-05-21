@@ -36,6 +36,9 @@ public class Expresion {
     public String getTipo(){
         return tipo;
     }
+    public int size(){
+        return tokens.size();
+    }
     
     String comparacion = "[<=>][=]",
                 comentario = "(#.*(\n)*)",
