@@ -173,6 +173,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
+                    <Property name="text" type="java.lang.String" value="origen inicio&#xa;#comentario&#xa;variable1 =  2&#xa;variable2 =  variable1&#xa;variable3 = &quot;hola&quot;&#xa;variable5 = variable1 + 5+5&#xa;si &#xbf;variable1 == 1 ? inicio&#xa; imprimir&#xbf;&quot;a&quot; ?&#xa;fin&#xa;fin"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                     <Property name="autoscrolls" type="boolean" value="false"/>
                   </Properties>
@@ -241,9 +242,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="DialogInput" size="18" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Analizador Sintactico"/>
           </Properties>
           <Constraints>
@@ -274,9 +272,6 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="DialogInput" size="18" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Analizador Lexico"/>
           </Properties>

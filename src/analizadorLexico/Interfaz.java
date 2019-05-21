@@ -18,7 +18,7 @@ public class Interfaz extends javax.swing.JFrame {
     private ArrayList<Token> analizarTokens;
     private AnalizadorLexico analizadorLexico;
     private int numeroLinea = 1;
-    private String error = "Hubo un error a la hora de hacer la ejecucion";
+    private String error = "Hubo un error en el análisis léxico";
     
     
 
@@ -104,6 +104,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         escribirTxt.setColumns(20);
         escribirTxt.setRows(5);
+        escribirTxt.setText("origen inicio\n#comentario\nvariable1 =  2\nvariable2 =  variable1\nvariable3 = \"hola\"\nvariable5 = variable1 + 5+5\nsi ¿variable1 == 1 ? inicio\n imprimir¿\"a\" ?\nfin\nfin");
         escribirTxt.setWrapStyleWord(true);
         escribirTxt.setAutoscrolls(false);
         escribirTxt.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -162,7 +163,6 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, 330, 130));
 
         jLabel1.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Analizador Sintactico");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, -1, -1));
 
@@ -176,7 +176,6 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.add(analizarBoton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 60, 50));
 
         jLabel2.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Analizador Lexico");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, -1, -1));
 

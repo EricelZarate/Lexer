@@ -24,7 +24,10 @@ public class AnalizadorSintactico {
             System.out.println(exp.toString());
         }
     }
+    
     public ArrayList<Expresion> analizar(){
+        
+        //PRIMERO SE COMPRUEBA QUE EL INICIO Y FIN DEL PROGRAMA ESTÉN BIEN DEFINIDOS
         if (tokens.get(0).getLexema().equals("origen")){
             if((tokens.get(1).getLexema().equals("inicio"))&&(tokens.get(tokens.size()-1).getLexema().equals("fin"))){
                 Expresion e = new Expresion("origen");
@@ -33,12 +36,15 @@ public class AnalizadorSintactico {
                 ex.add(e);
             }
             i = 2;
+            //CICLO PARA RECORRER TODOS LOS TOKENS
             while(i<tokens.size()-1&&errcode.equals("Analisis OK")){
-                if(tokens.get(i).getLexema().equals("imprimir")){
-                    if(tokens.get(i+1).getLexema().equals("¿")){
-                        if((tokens.get(i+2).getCategoria().equals(Token.CADENA_PALABRAS))||(tokens.get(i+2).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+2).getCategoria().equals(Token.VALORES_NUMERICOS))){
-                            if(tokens.get(i+3).getLexema().equals("?")){
-                                Expresion e = new Expresion("imprimir");
+                //SI EL LEXEMA ENCONTRADO ES LA PALABRA RESERVADA IMPRIMIR ANALIZA QUE LOS SIGUIENTES LEXEMAS CORRESPONDAN
+                //A LA SINTAXIS DE IMPRIMIR
+                if(tokens.get(i).getLexema().equals("imprimir")){ //PRIMER LEXEMA IMPRIMIR
+                    if(tokens.get(i+1).getLexema().equals("¿")){ //SIGUE APERTURA DE LLAVE
+                        if((tokens.get(i+2).getCategoria().equals(Token.CADENA_PALABRAS))||(tokens.get(i+2).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+2).getCategoria().equals(Token.VALORES_NUMERICOS))){//SOLO IMPRIME ESTOS TRES TIPOS DE VALORES, NO PERMITE OPERACIONES DENTRO
+                            if(tokens.get(i+3).getLexema().equals("?")){//LLAVE DE CIERRE
+                                Expresion e = new Expresion("imprimir"); //SE CREA LA EXPRESION
                                     e.addToken(tokens.get(i));
                                     e.addToken(tokens.get(i+1));
                                     e.addToken(tokens.get(i+2));
@@ -51,9 +57,9 @@ public class AnalizadorSintactico {
             }
                 else if(tokens.get(i).getLexema().equals("si")){
                     if(tokens.get(i+1).getLexema().equals("¿")){
-                        if((tokens.get(i+2).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+2).getCategoria().equals(Token.VALORES_NUMERICOS))){
+                        if((tokens.get(i+2).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+2).getCategoria().equals(Token.VALORES_NUMERICOS))||(tokens.get(i+2).getCategoria().equals(Token.CADENA_PALABRAS))){
                             if(tokens.get(i+3).getCategoria().equals(Token.COMPARACIONES)){
-                                if((tokens.get(i+4).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+4).getCategoria().equals(Token.VALORES_NUMERICOS))){
+                                if((tokens.get(i+4).getCategoria().equals(Token.NOMBRES_DE_VARIABLES))||(tokens.get(i+4).getCategoria().equals(Token.VALORES_NUMERICOS))||(tokens.get(i+4).getCategoria().equals(Token.CADENA_PALABRAS))){
                                     if(tokens.get(i+5).getLexema().equals("?")){
                                         if(tokens.get(i+6).getLexema().equals("inicio")){
                                             Expresion e = new Expresion("iniciosi");
@@ -114,7 +120,7 @@ public class AnalizadorSintactico {
                                     e.addToken(tokens.get(z));
                                     e.addToken(tokens.get(z+1));
                                     z++;
-                                }else errcode= "Token esperado : " +tokens.get(i).getLineaSiguiente(); 
+                                }else errcode= "Token inesperado : " +tokens.get(i).getLineaSiguiente(); 
                                 }else errcode= "Asignación mal definida : " +tokens.get(i).getLineaSiguiente();
                             z++;
                         }

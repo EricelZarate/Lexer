@@ -19,6 +19,11 @@ public class AnalizadorSemantico {
     public AnalizadorSemantico(ArrayList<Expresion> arr){
         this.arr=arr;
     }
+
+    /**
+     * Analiza las expresiones interpretdas por el analizador sintactico en busca de errores semánticos
+     * @return true si no se encuentran errores semánticos, false de lo contrario
+     */
     public boolean analizar(){
         int i=0;
         for (Expresion e : arr){
@@ -86,6 +91,72 @@ public class AnalizadorSemantico {
                             }
                         }
                     }                    
+                }
+            }else if (e.getTipo().equals("imprimir")){
+                if(e.getTokenAt(2).getCategoria().equals("Nombre de variable")){
+                int pos =definida(e.getTokenAt(2));
+                if(pos==-1){
+                   errcode="Variable "+e.getTokenAt(2).getLexema()+" no definida";
+                   return false;
+                }        
+                }
+            }else if (e.getTipo().equals("iniciosi")){
+                int tipo1 =0; //TIPO DE DATO DE LA VARIABLE 1
+                int tipo2 =-1; //1 INT | 2 STRING
+                switch(e.getTokenAt(2).getCategoria()){
+                    case "Numerico":
+                        tipo1=1;
+                        break;
+                    case "Cadena de palabra":
+                        tipo1=2;
+                        break;
+                    case "Nombre de variable":                                                
+                        int def=definida(e.getTokenAt(2));
+                        if(def==-1){
+                            errcode="Variable "+e.getTokenAt(2).getLexema()+" no definida";
+                            return false;
+                        }
+                        if(var.get(def).getTipo().equals("entero")){
+                            tipo1=1;
+                            break;
+                        }
+                        else if(var.get(def).getTipo().equals("cadena")){
+                            tipo1=2;
+                            break;
+                        }
+                        else{
+                            errcode="Error al identificar tipo de dato :"+e.getTokenAt(2).getLineaSiguiente();
+                            return false;
+                        }
+                }   
+                switch(e.getTokenAt(4).getCategoria()){
+                    case "Numerico":
+                        tipo2=1;
+                        break;
+                    case "Cadena de palabra":
+                        tipo2=2;
+                        break;
+                    case "Nombre de variable":    
+                         int def = definida(e.getTokenAt(4));
+                        if(def==-1){
+                            errcode="Variable "+e.getTokenAt(4).getLexema()+" no definida";
+                            return false;
+                        }
+                        if(var.get(def).getTipo().equals("entero")){
+                            tipo2=1; 
+                            break;
+                        }else if(var.get(def).getTipo().equals("cadena")){
+                            tipo2=2;
+                            break;
+                        }
+                        else{
+                            errcode="Error al identificar tipo de dato :"+e.getTokenAt(2).getLineaSiguiente();
+                            return false;
+                        }
+                }
+                if(tipo1!=tipo2){ //SI LOS TIPOS DE DATOS A COMPARAR NO SON IGUALES                   
+                    errcode="Los tipos de datos a comparar no son iguales: "+e.getTokenAt(0).getLineaSiguiente();
+                    return false;                        
                 }
             }
             i++;
