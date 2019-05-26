@@ -19,6 +19,8 @@ public class Interfaz extends javax.swing.JFrame {
     private AnalizadorLexico analizadorLexico;
     private int numeroLinea = 1;
     private String error = "Hubo un error en el análisis léxico";
+    private ArrayList<Expresion> arr;
+    private boolean analisisok=false;
     
     
 
@@ -46,7 +48,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        analizarBoton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAnalixador = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -58,7 +59,11 @@ public class Interfaz extends javax.swing.JFrame {
         imprimirText = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         analizarBoton1 = new javax.swing.JButton();
+        analizarBoton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        escribirTxt2 = new javax.swing.JTextArea();
+        escribirTxt1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -67,15 +72,6 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        analizarBoton.setBackground(new java.awt.Color(255, 255, 255));
-        analizarBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/analizadorLexico/Search-icon.png"))); // NOI18N
-        analizarBoton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                analizarBotonActionPerformed(evt);
-            }
-        });
-        jPanel2.add(analizarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 60, 50));
 
         tablaAnalixador.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tablaAnalixador.setModel(new javax.swing.table.DefaultTableModel(
@@ -163,8 +159,8 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, 330, 130));
 
         jLabel1.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
-        jLabel1.setText("Analizador Sintactico");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, -1, -1));
+        jLabel1.setText("Analizador");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 380, -1, -1));
 
         analizarBoton1.setBackground(new java.awt.Color(255, 255, 255));
         analizarBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/analizadorLexico/Search-icon.png"))); // NOI18N
@@ -173,45 +169,63 @@ public class Interfaz extends javax.swing.JFrame {
                 analizarBoton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(analizarBoton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 60, 50));
+        jPanel2.add(analizarBoton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 370, 60, 50));
+
+        analizarBoton2.setBackground(new java.awt.Color(255, 255, 255));
+        analizarBoton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/analizadorLexico/Search-icon.png"))); // NOI18N
+        analizarBoton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analizarBoton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(analizarBoton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 440, 60, 50));
 
         jLabel2.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
-        jLabel2.setText("Analizador Lexico");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, -1, -1));
+        jLabel2.setText("Código intermedio");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 450, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 600));
+        escribirTxt2.setEditable(false);
+        escribirTxt2.setColumns(20);
+        escribirTxt2.setRows(5);
+        escribirTxt2.setWrapStyleWord(true);
+        escribirTxt2.setAutoscrolls(false);
+        escribirTxt2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                escribirTxt2KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                escribirTxt2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                escribirTxt2KeyTyped(evt);
+            }
+        });
+        jScrollPane4.setViewportView(escribirTxt2);
+
+        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 20, 270, 530));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 600));
+
+        escribirTxt1.setColumns(20);
+        escribirTxt1.setRows(5);
+        escribirTxt1.setText("origen inicio\n#Este es un código de prueba\nvariable1 =  2\nvariable2 =  variable1\nvariable3 = \"hola\"\nvariable5 = variable3+\" mundo\"\nsi ¿variable1 == 1 ? inicio\n imprimir¿\"a\" ?\nfin sino inicio\nvariable2=1+variable2+5\nfin\nfin");
+        escribirTxt1.setWrapStyleWord(true);
+        escribirTxt1.setAutoscrolls(false);
+        escribirTxt1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                escribirTxt1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                escribirTxt1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                escribirTxt1KeyTyped(evt);
+            }
+        });
+        getContentPane().add(escribirTxt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 329, 511));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void analizarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBotonActionPerformed
-        try {
-            String codigo= escribirTxt.getText();
-            analizadorLexico = new AnalizadorLexico(codigo);            
-            analizarTokens = analizadorLexico.analizarCodigo();
-
-            DefaultTableModel modelo = (DefaultTableModel) tablaAnalixador.getModel();
-            int filas = tablaAnalixador.getRowCount() - 1;
-            for (int i = filas; i >= 0; i--) {
-                modelo.removeRow(i);
-            }
-
-            String mensajeErrores = "";
-            for (Token token : analizarTokens) {
-                if (!token.getCategoria().equalsIgnoreCase(Token.SIMBOLOS_NO_RECONOCIDOS)) {
-                    modelo.addRow(new Object[]{token.getLineaSiguiente(), token.getCategoria(), token.getLexema()});
-                }
-                if (token.getCategoria().equalsIgnoreCase(Token.SIMBOLOS_NO_RECONOCIDOS)) {
-                    mensajeErrores += "Error : El lexema " + token.getLexema() + " ubicado en la línea " + token.getLineaSiguiente() + " no es reconocido.\n";
-                }
-            }
-            imprimirText.setText(mensajeErrores);
-
-        } catch (Exception e) {
-            imprimirText.setText(error);//error
-        }
-        
-    }//GEN-LAST:event_analizarBotonActionPerformed
 
     //Actualiza la barra lateral para el formato de numeración de líneas
     //Totalmente innecesario xd
@@ -267,24 +281,90 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void analizarBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBoton1ActionPerformed
         // TODO add your handling code here:
+        try {
+            String codigo= escribirTxt.getText();
+            analizadorLexico = new AnalizadorLexico(codigo);
+            analizarTokens = analizadorLexico.analizarCodigo();
+
+            DefaultTableModel modelo = (DefaultTableModel) tablaAnalixador.getModel();
+            int filas = tablaAnalixador.getRowCount() - 1;
+            for (int i = filas; i >= 0; i--) {
+                modelo.removeRow(i);
+            }
+
+            String mensajeErrores = "";
+            for (Token token : analizarTokens) {
+                if (!token.getCategoria().equalsIgnoreCase(Token.SIMBOLOS_NO_RECONOCIDOS)) {
+                    modelo.addRow(new Object[]{token.getLineaSiguiente(), token.getCategoria(), token.getLexema()});
+                }
+                if (token.getCategoria().equalsIgnoreCase(Token.SIMBOLOS_NO_RECONOCIDOS)) {
+                    mensajeErrores += "Error : El lexema " + token.getLexema() + " ubicado en la línea " + token.getLineaSiguiente() + " no es reconocido.\n";
+                }
+            }
+            imprimirText.setText(mensajeErrores);
+
+        } catch (Exception e) {
+            imprimirText.setText(error);//error
+        }
+        
         
         if(!analizarTokens.isEmpty()){
         AnalizadorSintactico as = new AnalizadorSintactico(analizarTokens);
-        ArrayList<Expresion> arr=as.analizar();            
+        arr=as.analizar();            
         imprimirText.setText(as.getErrCode());
         as.imprimeExp();
         if(as.getErrCode().equals("Analisis OK")){
             AnalizadorSemantico az= new AnalizadorSemantico(arr);
             if(az.analizar()){
                 imprimirText.setText("Analisis OK");
+                analisisok=true;
             } else imprimirText.setText(az.getErrCode());
             az.dumpVar();
-        }
+        }            
+            
+            
         }
         else imprimirText.setText("No hay tokens");
         
+        
                             
     }//GEN-LAST:event_analizarBoton1ActionPerformed
+
+    private void analizarBoton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBoton2ActionPerformed
+        escribirTxt2.setText("");
+        Intermedio inter = new Intermedio(arr);
+            ArrayList<String> code=inter.generar();
+            for(String s:code){
+                escribirTxt2.setText(escribirTxt2.getText()+s);
+                escribirTxt2.setText(escribirTxt2.getText()+"\n");
+            }
+            
+            
+    }//GEN-LAST:event_analizarBoton2ActionPerformed
+
+    private void escribirTxt1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_escribirTxt1KeyPressed
+
+    private void escribirTxt1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_escribirTxt1KeyReleased
+
+    private void escribirTxt1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_escribirTxt1KeyTyped
+
+    private void escribirTxt2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_escribirTxt2KeyPressed
+
+    private void escribirTxt2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_escribirTxt2KeyReleased
+
+    private void escribirTxt2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_escribirTxt2KeyTyped
 
 
     /**
@@ -324,9 +404,11 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton analizarBoton;
     private javax.swing.JButton analizarBoton1;
+    private javax.swing.JButton analizarBoton2;
     private javax.swing.JTextArea escribirTxt;
+    private javax.swing.JTextArea escribirTxt1;
+    private javax.swing.JTextArea escribirTxt2;
     private javax.swing.JTextArea imprimirText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -334,6 +416,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel jpanelInterfazEscribir;
     private javax.swing.JTextArea lineaTxt;
     private javax.swing.JLabel mensajetxt;

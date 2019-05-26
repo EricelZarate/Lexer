@@ -9,7 +9,7 @@ public class AnalizadorLexico {
   
 
    private static final String [] COMPARACIONES={
-   "=>","=<","!=","=="
+   "=>","=<","!=","==","<",">"
    };
 
    

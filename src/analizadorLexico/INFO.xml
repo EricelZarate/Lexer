@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<root>
+    <info>
+        <elemento>En los si siempre tiene que haber comparaciones, no como en java que puede haber un if(true)</elemento>
+        <elemento>Los sino no pueden llevar parámetros</elemento>
+        <elemento></elemento>
+    </info>
+    <bugs>
+        <elemento>No se puede sumar int con String, parece que en algun caso es permitido</elemento>
+        
+    </bugs>
+    
+</root>
