@@ -20,7 +20,9 @@ public class Interfaz extends javax.swing.JFrame {
     private int numeroLinea = 1;
     private String error = "Hubo un error en el análisis léxico";
     private ArrayList<Expresion> arr;
+    ArrayList<String> code;
     private boolean analisisok=false;
+    
     
     
 
@@ -63,6 +65,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         escribirTxt2 = new javax.swing.JTextArea();
+        analizarBoton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         escribirTxt1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,7 +104,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         escribirTxt.setColumns(20);
         escribirTxt.setRows(5);
-        escribirTxt.setText("origen inicio\n#Este es un código de prueba\nvariable1 =  2\nvariable2 =  variable1\nvariable3 = \"hola\"\nvariable5 = variable3+\" mundo\"\nsi ¿variable1 == 1 ? inicio\n imprimir¿\"a\" ?\nfin sino inicio\nvariable2=1+variable2+5\nfin\nfin");
+        escribirTxt.setText("origen inicio\n#Este es un código de prueba\nvariable1 =  2\nvariable2 =  variable1\nvariable3 = \"hola\"\nvariable5 = variable3+\" mundo\"\nsi ¿variable1!= 1 ? inicio\n imprimir¿variable5?\nfin sino inicio\nvariable2=1+variable2+5\nfin\nvariable4=1+2+3+4+5+6\nsi¿1==1? inicio\nimprimir¿\"true\"?\nfin\nfin");
         escribirTxt.setWrapStyleWord(true);
         escribirTxt.setAutoscrolls(false);
         escribirTxt.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -203,6 +207,19 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane4.setViewportView(escribirTxt2);
 
         jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 20, 270, 530));
+
+        analizarBoton3.setBackground(new java.awt.Color(255, 255, 255));
+        analizarBoton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/analizadorLexico/Search-icon.png"))); // NOI18N
+        analizarBoton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analizarBoton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(analizarBoton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 500, 60, 50));
+
+        jLabel3.setFont(new java.awt.Font("DialogInput", 1, 18)); // NOI18N
+        jLabel3.setText("Código final");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 510, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1090, 600));
 
@@ -319,7 +336,7 @@ public class Interfaz extends javax.swing.JFrame {
                 imprimirText.setText("Analisis OK");
                 analisisok=true;
             } else imprimirText.setText(az.getErrCode());
-            az.dumpVar();
+            //az.dumpVar();
         }            
             
             
@@ -333,7 +350,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void analizarBoton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBoton2ActionPerformed
         escribirTxt2.setText("");
         Intermedio inter = new Intermedio(arr);
-            ArrayList<String> code=inter.generar();
+            code=inter.generar();
             for(String s:code){
                 escribirTxt2.setText(escribirTxt2.getText()+s);
                 escribirTxt2.setText(escribirTxt2.getText()+"\n");
@@ -365,6 +382,16 @@ public class Interfaz extends javax.swing.JFrame {
     private void escribirTxt2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_escribirTxt2KeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_escribirTxt2KeyTyped
+
+    private void analizarBoton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBoton3ActionPerformed
+        escribirTxt2.setText("");
+        Transpilador trans= new Transpilador(code);
+        ArrayList<String> python= trans.transpila();
+        for(String s:python){
+                escribirTxt2.setText(escribirTxt2.getText()+s);
+                escribirTxt2.setText(escribirTxt2.getText()+"\n");
+            }
+    }//GEN-LAST:event_analizarBoton3ActionPerformed
 
 
     /**
@@ -406,12 +433,14 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analizarBoton1;
     private javax.swing.JButton analizarBoton2;
+    private javax.swing.JButton analizarBoton3;
     private javax.swing.JTextArea escribirTxt;
     private javax.swing.JTextArea escribirTxt1;
     private javax.swing.JTextArea escribirTxt2;
     private javax.swing.JTextArea imprimirText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
